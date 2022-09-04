@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "655779934508",
+    "firebase_url": "https://kolhapur-forever-default-rtdb.firebaseio.com",
+    "project_id": "kolhapur-forever",
+    "storage_bucket": "kolhapur-forever.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655779934508:android:a711026ab9c3eed6d6bc89",
+        "android_client_info": {
+          "package_name": "com.example.kolhapurforeveradmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655779934508-3mu81h3r5aaitjv8p75s1g0phajmeq1j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kolhapurforeveradmin",
+            "certificate_hash": "d06afab0d06b889b62167e08e5c0895856c8f9ad"
+          }
+        },
+        {
+          "client_id": "655779934508-2flqs7b0s2lvn8ie9nfq3vi4i8jsbuj9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3y0Icc_irNjuZAMDBeXqik1nFyDHdAqk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655779934508-2flqs7b0s2lvn8ie9nfq3vi4i8jsbuj9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "655779934508-7bas9f3oce2aq7rkg6dep44qj51fbg5n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Kolhapur-Forever"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655779934508:android:a2cde326c8b6a9d9d6bc89",
+        "android_client_info": {
+          "package_name": "com.kolhapurforever.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655779934508-506p5mo8vj4u55cep7dos07iogjq639j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kolhapurforever.android",
+            "certificate_hash": "d06afab0d06b889b62167e08e5c0895856c8f9ad"
+          }
+        },
+        {
+          "client_id": "655779934508-2flqs7b0s2lvn8ie9nfq3vi4i8jsbuj9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3y0Icc_irNjuZAMDBeXqik1nFyDHdAqk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655779934508-2flqs7b0s2lvn8ie9nfq3vi4i8jsbuj9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "655779934508-7bas9f3oce2aq7rkg6dep44qj51fbg5n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Kolhapur-Forever"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/addCompitionFragment"
+        android:title="Add Compitition"
+        android:icon="@drawable/ic_baseline_add_moderator_24"/>
+    <item
+        android:id="@+id/editCompitionFragment"
+        android:title="Edit Compitition"
+        android:icon="@drawable/ic_baseline_edit_note_24"/>
+    <item
+        android:id="@+id/addSponsorFragment"
+        android:title="Add Sponsor"
+        android:icon="@drawable/ic_baseline_group_add_24"/>
+    <item
+        android:id="@+id/editSponsorFragment"
+        android:title="Edit Sponsor"
+        android:icon="@drawable/ic_baseline_edit_24"/>
+</menu>
