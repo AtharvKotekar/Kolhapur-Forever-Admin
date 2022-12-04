@@ -31,7 +31,7 @@ class TournamentDetail : Fragment() {
 
         tournametId = arguments?.getString("tournamentId").toString()
 
-        getData()
+
 
         binding.addMatchBtn.setOnClickListener {
             val bundle = Bundle()
@@ -89,5 +89,8 @@ class TournamentDetail : Fragment() {
 
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        getData()
+    }
 }

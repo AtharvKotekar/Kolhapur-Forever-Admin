@@ -152,6 +152,20 @@
                 app:layout_constraintStart_toEndOf="@+id/team1_logo"
                 app:layout_constraintTop_toBottomOf="@+id/dash" />
 
+            <TextView
+                android:id="@+id/delete_btn_match"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="Delete Match"
+                android:textColor="#CD0000"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/time_text"
+                app:layout_constraintStart_toStartOf="@+id/time_text"
+                app:layout_constraintTop_toBottomOf="@+id/time_text" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

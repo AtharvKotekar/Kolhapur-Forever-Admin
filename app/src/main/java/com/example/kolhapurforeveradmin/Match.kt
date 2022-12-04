@@ -14,6 +14,5 @@ data class Match(
     val team1Score:Int = 0,
     val team2Score:Int = 0,
     val startTime:String = "",
-    val goals:ArrayList<Goals> = ArrayList(),
     val startTimestamp: Long = 0L
 )

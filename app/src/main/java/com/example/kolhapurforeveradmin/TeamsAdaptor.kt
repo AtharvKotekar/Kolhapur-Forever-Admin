@@ -49,49 +49,21 @@ class TeamsAdaptor(private var fragment: Fragment, private var list: ArrayList<T
             }
             dialog.setPositiveButton("Remove") { dialog, which ->
 
-            val newTeamList = ArrayList<Team>()
-                for (i in list){
-                    newTeamList.add(i)
-                }
-
-                newTeamList.remove(model)
-
                 FirebaseDatabase.getInstance().getReference("Sports")
                     .child("Football")
-                    .child("Tournament")
+                    .child("Teams")
                     .child(tournamentId)
-                    .get()
-                    .addOnSuccessListener { snapshot ->
-                        if(snapshot.exists()){
-                            val tournament = snapshot.getValue(Tournament::class.java)
+                    .child(model.teamId)
+                    .removeValue()
+                    .addOnSuccessListener {
+                        dialog.dismiss()
+                        Toast.makeText(
+                            fragment.requireActivity(),
+                            "Done..",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                            val newTournament = Tournament(tournament!!.tournamentId,tournament.tournamentName,tournament.tournamentLogo,
-                                newTeamList!!
-                            )
-
-                            FirebaseDatabase.getInstance().getReference("Sports")
-                                .child("Football")
-                                .child("Tournament")
-                                .child(tournamentId)
-                                .setValue(newTournament)
-                                .addOnSuccessListener {
-
-                                    dialog.dismiss()
-                                    Toast.makeText(
-                                        fragment.requireActivity(),
-                                        "Done..",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-
-                                    fragment.onResume()
-
-
-                                }
-
-
-
-
-                        }
+                        fragment.onResume()
                     }
 
 

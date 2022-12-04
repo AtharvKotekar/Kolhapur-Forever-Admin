@@ -11,10 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -32,6 +35,7 @@ class MatchAdaptor(private var fragment: Fragment, private var list: ArrayList<M
         val time = view.findViewById<TextView>(R.id.time_text)
         val team1Logo = view.findViewById<ImageView>(R.id.team1_logo)
         val team2Logo = view.findViewById<ImageView>(R.id.team2_logo)
+        val deleteBtn = view.findViewById<TextView>(R.id.delete_btn_match)
 
     }
 
@@ -60,78 +64,118 @@ class MatchAdaptor(private var fragment: Fragment, private var list: ArrayList<M
         holder.team2Name.text = model.team2Name
 
 
-                val startDate = model.startTime
-                val spfStart = SimpleDateFormat("dd.MM.yyyy, HH:mm:ss")
-                val displayDate = SimpleDateFormat("dd MMM yy, hh:mm aa")
-                val newStartDate: Date = spfStart.parse(startDate) as Date
+        val startDate = model.startTime
+        val spfStart = SimpleDateFormat("dd.MM.yyyy, HH:mm:ss")
+        val displayDate = SimpleDateFormat("dd MMM yy, hh:mm aa")
+        val newStartDate: Date = spfStart.parse(startDate) as Date
 
 
-                val displayStringDate = displayDate.format(newStartDate)
+        val displayStringDate = displayDate.format(newStartDate)
 
 
-                val currentDate = LocalDateTime.now()
-                val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm:ss")
-                val formattedDate = currentDate.format(formatter)
+        val currentDate = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm:ss")
+        val formattedDate = currentDate.format(formatter)
 
 
-                val dateFormat: SimpleDateFormat = SimpleDateFormat(
-                    "dd.MM.yyyy, HH:mm:ss"
-                )
-                var convertedStartDate = Date()
-                var convertedCurrentDate = Date()
+        val dateFormat: SimpleDateFormat = SimpleDateFormat(
+            "dd.MM.yyyy, HH:mm:ss"
+        )
+        var convertedStartDate = Date()
+        var convertedCurrentDate = Date()
 
-                Log.e(TAG, "onBindViewHolder: StartDate $startDate",)
-                Log.e(TAG, "onBindViewHolder: CurrentDate $formattedDate",)
+        Log.e(TAG, "onBindViewHolder: StartDate $startDate",)
+        Log.e(TAG, "onBindViewHolder: CurrentDate $formattedDate",)
 
-                try {
-                    convertedStartDate = dateFormat.parse(startDate) as Date
-                    convertedCurrentDate = dateFormat.parse(formattedDate) as Date
+        try {
+            convertedStartDate = dateFormat.parse(startDate) as Date
+            convertedCurrentDate = dateFormat.parse(formattedDate) as Date
 
-                    if (convertedCurrentDate.after(convertedStartDate)) {
-                        holder.time.text = "Live"
-                        holder.time.setTextColor(Color.parseColor("#DF0513"))
-                    } else {
-                        holder.time.text = displayStringDate.toString()
+            if (convertedCurrentDate.after(convertedStartDate)) {
+                holder.time.text = "Live"
+                holder.time.setTextColor(Color.parseColor("#DF0513"))
+                holder.deleteBtn.visibility = View.GONE
+            } else {
+                holder.time.text = displayStringDate.toString()
 
-                        val diffrence = convertedStartDate.time - convertedCurrentDate.time
+                val diffrence = convertedStartDate.time - convertedCurrentDate.time
 
-                        val countDownTimer = object : CountDownTimer(diffrence, 1000) {
-                            override fun onTick(millisUntilFinished: Long) {
-                                var diff = millisUntilFinished
-                                val secondsInMilli: Long = 1000
-                                val minutesInMilli = secondsInMilli * 60
-                                val hoursInMilli = minutesInMilli * 60
+                val countDownTimer = object : CountDownTimer(diffrence, 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        var diff = millisUntilFinished
+                        val secondsInMilli: Long = 1000
+                        val minutesInMilli = secondsInMilli * 60
+                        val hoursInMilli = minutesInMilli * 60
 
-                            }
-
-                            override fun onFinish() {
-                                holder.time.text = "Live"
-                                holder.time.setTextColor(Color.parseColor("#DF0513"))
-                            }
-
-                        }.start()
                     }
 
+                    override fun onFinish() {
+                        holder.time.text = "Live"
+                        holder.time.setTextColor(Color.parseColor("#DF0513"))
+                        holder.deleteBtn.visibility = View.GONE
+                    }
 
-                } catch (e: Exception) {
-                    Log.e(ContentValues.TAG, "onBindViewHolder: ${e.localizedMessage}",)
-                }
+                }.start()
+            }
+
+
+        } catch (e: Exception) {
+            Log.e(ContentValues.TAG, "onBindViewHolder: ${e.localizedMessage}",)
+        }
+        
+        
 
 
                 holder.itemView.setOnClickListener {
-                    val bundle = Bundle()
-                    bundle.putString("tournamentId",model.tournamentId)
-//                    bundle.putString("tournamentName",model.tournamentName)
-//                    bundle.putString("matchId",model.matchId)
-//                    bundle.putString("team1Id",model.team1Id)
-//                    bundle.putString("team2Id",model.team2Id)
-//                    bundle.putString("team1Name",model.team1Name)
-//                    bundle.putString("team2Name",model.team2Name)
-//                    bundle.putString("team1Logo",model.team1Logo)
-//                    bundle.putString("team2Logo",model.team2Logo)
-//                    bundle.putString("status","Upcoming")
-//                    bundle.putString("sponsorID",model.sponserId)
-                    fragment.findNavController().navigate(R.id.action_tournamentDetail_to_matchDetailFragment,bundle)
+                    if(holder.time.text == "Live"){
+                        val bundle = Bundle()
+                        bundle.putString("tournamentId",model.tournamentId)
+                        bundle.putString("tournamentName",model.tournamentName)
+                        bundle.putString("matchId",model.matchId)
+                        bundle.putString("team1Id",model.team1Id)
+                        bundle.putString("team2Id",model.team2Id)
+                        bundle.putString("team1Name",model.team1Name)
+                        bundle.putString("team2Name",model.team2Name)
+                        bundle.putString("team1Logo",model.team1Logo)
+                        bundle.putString("team2Logo",model.team2Logo)
+                        fragment.findNavController().navigate(R.id.action_tournamentDetail_to_matchDetailFragment,bundle)
+                    }else{
+                        Toast.makeText(fragment.requireContext(), "थांब कि जरा मॅच चालू तरी हुदे. ", Toast.LENGTH_SHORT).show()
+                    }
+                    
+                }
+
+                holder.deleteBtn.setOnClickListener {
+                    val dialog = MaterialAlertDialogBuilder(fragment.requireContext(),R.style.AppCompatAlertDialogStyle)
+                    dialog.setTitle("Remove From List")
+                    dialog.setMessage("Do you really want to remove ${model.team1Name} v/s ${model.team2Name} match from List?")
+                    dialog.setNegativeButton("Cancel") { dialog, which ->
+                        dialog.dismiss()
+                    }
+                    dialog.setPositiveButton("Remove") { dialog, which ->
+
+                        FirebaseDatabase.getInstance().getReference("Sports")
+                            .child("Football")
+                            .child("Matches")
+                            .child("Upcoming")
+                            .child(model.matchId)
+                            .removeValue()
+                            .addOnSuccessListener {
+                                dialog.dismiss()
+                                Toast.makeText(
+                                    fragment.requireContext(),
+                                    "Done..",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                fragment.activity?.onBackPressed()
+                            }
+
+
+
+
+                    }
+                    dialog.show()
                 }
 
 

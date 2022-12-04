@@ -1,6 +1,7 @@
 package com.example.kolhapurforeveradmin
 
 data class Goals (
+    val goalId:String = "",
     val teamId:String = "",
     val teamlogo : String = "",
     val playerName:String = "",

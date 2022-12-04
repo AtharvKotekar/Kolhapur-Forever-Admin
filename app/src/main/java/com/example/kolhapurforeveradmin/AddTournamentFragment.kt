@@ -75,9 +75,7 @@ class AddTournamentFragment : Fragment() {
 
                                 val tournamentId = getRandomString(25)
 
-                                val teamsList = ArrayList<Team>()
-
-                                val tournament = Tournament(tournamentId,binding.tournamentNameEtv.text.toString(),logo.toString(),teamsList)
+                                val tournament = Tournament(tournamentId,binding.tournamentNameEtv.text.toString(),logo.toString())
 
                                 FirebaseDatabase.getInstance().getReference("Sports")
                                     .child("Football")

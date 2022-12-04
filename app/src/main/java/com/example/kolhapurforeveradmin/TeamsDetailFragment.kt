@@ -47,17 +47,21 @@ class TeamsDetailFragment : Fragment() {
     fun getData(){
         FirebaseDatabase.getInstance().getReference("Sports")
             .child("Football")
-            .child("Tournament")
+            .child("Teams")
             .child(tournametId)
             .get()
             .addOnSuccessListener { snapshot ->
                 if(snapshot.exists()){
                     temasList.clear()
-                    val tournament = snapshot.getValue(Tournament::class.java)
-                    for (i in tournament!!.teams){
 
-                        temasList.add(i)
+                    for ( i in snapshot.children){
+                        val team = i.getValue(Team::class.java)
+                        temasList.add(team!!)
                     }
+
+
+
+
                     updateUI(temasList)
                 }
             }

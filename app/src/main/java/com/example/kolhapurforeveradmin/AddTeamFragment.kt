@@ -79,48 +79,18 @@ class AddTeamFragment : Fragment() {
 
                                 val team = Team(teamId,binding.teamNameEtv.text.toString(),logo.toString(),0,0,0,0,0,0,0)
 
+
                                 FirebaseDatabase.getInstance().getReference("Sports")
                                     .child("Football")
-                                    .child("Tournament")
+                                    .child("Teams")
                                     .child(tournamentId)
-                                    .get()
-                                    .addOnSuccessListener { snapshot ->
-                                        if(snapshot.exists()){
-                                            val tournament = snapshot.getValue(Tournament::class.java)
-
-                                            val teams = ArrayList<Team>()
-
-                                            for (i in tournament!!.teams){
-                                                teams.add(i)
-                                            }
-
-                                            teams.add(team)
-
-                                            val newTournament = Tournament(tournament!!.tournamentId,tournament.tournamentName,tournament.tournamentLogo,
-                                                teams!!
-                                            )
-
-                                            FirebaseDatabase.getInstance().getReference("Sports")
-                                                .child("Football")
-                                                .child("Tournament")
-                                                .child(tournamentId)
-                                                .setValue(newTournament)
-                                                .addOnSuccessListener {
-
-                                                    dialog.dismiss()
-                                                    Toast.makeText(
-                                                        requireActivity(),
-                                                        "Done..",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                    activity?.onBackPressed()
-
-                                                }
-
-
-
-
-                                        }
+                                    .child(teamId)
+                                    .setValue(team)
+                                    .addOnSuccessListener {
+                                        dialog.dismiss()
+                                        Toast.makeText(requireContext(), "Done..", Toast.LENGTH_SHORT)
+                                            .show()
+                                        activity?.onBackPressed()
                                     }
 
 
