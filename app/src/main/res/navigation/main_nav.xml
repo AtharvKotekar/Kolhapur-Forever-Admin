@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/addCompitionFragment">
+    app:startDestination="@id/footballFragment">
 
     <fragment
         android:id="@+id/editCompitionFragment"
@@ -51,4 +51,60 @@
         android:name="com.example.kolhapurforeveradmin.EditSpecificCompititionFragment"
         android:label="Edit Compitition"
         tools:layout="@layout/fragment_edit_specific_compitition" />
+    <fragment
+        android:id="@+id/footballFragment"
+        android:name="com.example.kolhapurforeveradmin.FootballFragment"
+        android:label="Football"
+        tools:layout="@layout/fragment_football">
+        <action
+            android:id="@+id/action_footballFragment_to_tournamentDetail"
+            app:destination="@id/tournamentDetail" />
+        <action
+            android:id="@+id/action_footballFragment_to_addTournamentFragment"
+            app:destination="@id/addTournamentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tournamentDetail"
+        android:name="com.example.kolhapurforeveradmin.TournamentDetail"
+        android:label="Tournament Detail"
+        tools:layout="@layout/fragment_tournament_detail" >
+        <action
+            android:id="@+id/action_tournamentDetail_to_matchDetailFragment"
+            app:destination="@id/matchDetailFragment" />
+        <action
+            android:id="@+id/action_tournamentDetail_to_teamsDetailFragment"
+            app:destination="@id/teamsDetailFragment" />
+        <action
+            android:id="@+id/action_tournamentDetail_to_addMatchFragment"
+            app:destination="@id/addMatchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/matchDetailFragment"
+        android:name="com.example.kolhapurforeveradmin.MatchDetailFragment"
+        android:label="Match Details"
+        tools:layout="@layout/fragment_match_detail" />
+    <fragment
+        android:id="@+id/addTournamentFragment"
+        android:name="com.example.kolhapurforeveradmin.AddTournamentFragment"
+        android:label="Add Tournament"
+        tools:layout="@layout/fragment_add_tournament" />
+    <fragment
+        android:id="@+id/addTeamFragment"
+        android:name="com.example.kolhapurforeveradmin.AddTeamFragment"
+        android:label="Add Team"
+        tools:layout="@layout/fragment_add_team" />
+    <fragment
+        android:id="@+id/teamsDetailFragment"
+        android:name="com.example.kolhapurforeveradmin.TeamsDetailFragment"
+        android:label="Teams Details"
+        tools:layout="@layout/fragment_teams_detail">
+        <action
+            android:id="@+id/action_teamsDetailFragment_to_addTeamFragment"
+            app:destination="@id/addTeamFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addMatchFragment"
+        android:name="com.example.kolhapurforeveradmin.AddMatchFragment"
+        android:label="Add Match"
+        tools:layout="@layout/fragment_add_match" />
 </navigation>

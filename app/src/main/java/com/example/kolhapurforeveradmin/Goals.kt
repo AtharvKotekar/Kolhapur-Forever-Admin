@@ -1,0 +1,8 @@
+package com.example.kolhapurforeveradmin
+
+data class Goals (
+    val teamId:String = "",
+    val teamlogo : String = "",
+    val playerName:String = "",
+    val playerJerseyNumber:Int = 0,
+    val timestamp: Int = -1 )

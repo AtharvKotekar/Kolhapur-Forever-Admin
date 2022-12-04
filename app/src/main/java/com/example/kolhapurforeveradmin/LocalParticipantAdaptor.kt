@@ -77,9 +77,6 @@ class LocalParticipantAdaptor(private var fragment: AddParticipantFragment, priv
                                     .setValue(list)
                                     .addOnSuccessListener {
                                         fragment.getData()
-
-
-
                                     }.addOnFailureListener {
                                         fragment.getData()
                                     }

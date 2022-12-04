@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:outlineAmbientShadowColor="@color/black"
+        android:outlineSpotShadowColor="@color/black"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="10dp"
+        app:cardMaxElevation="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/team1_logo"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tournament_name_match"
+                tools:src="@tools:sample/avatars" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/team2_logo"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tournament_name_match"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <TextView
+                android:id="@+id/tournament_name_match"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="KSA Football League, Kolhapur"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/team_1_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Mandal"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/team1_logo"
+                app:layout_constraintTop_toBottomOf="@+id/team1_logo" />
+
+            <TextView
+                android:id="@+id/team_2_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="PTM"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/team2_logo"
+                app:layout_constraintTop_toBottomOf="@+id/team2_logo" />
+
+            <TextView
+                android:id="@+id/score_team_1"
+                android:layout_width="51dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="0"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/team1_logo"
+                app:layout_constraintEnd_toStartOf="@+id/dash"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/team1_logo"
+                app:layout_constraintTop_toTopOf="@+id/team1_logo" />
+
+            <TextView
+                android:id="@+id/dash"
+                android:layout_width="52dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:text=" - "
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/score_team_1"
+                app:layout_constraintEnd_toStartOf="@+id/score_team_2"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/score_team_1"
+                app:layout_constraintTop_toTopOf="@+id/score_team_2" />
+
+            <TextView
+                android:id="@+id/score_team_2"
+                android:layout_width="52dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="0"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/team2_logo"
+                app:layout_constraintEnd_toStartOf="@+id/team2_logo"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/dash"
+                app:layout_constraintTop_toTopOf="@+id/team2_logo" />
+
+            <TextView
+                android:id="@+id/time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto"
+                android:text="24/10/2023 4:00 PM"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toStartOf="@+id/team2_logo"
+                app:layout_constraintStart_toEndOf="@+id/team1_logo"
+                app:layout_constraintTop_toBottomOf="@+id/dash" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

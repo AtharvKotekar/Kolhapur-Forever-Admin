@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -15,6 +16,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.kolhapurforeveradmin.databinding.FragmentAddSpecificBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.FirebaseDatabase
@@ -226,6 +229,8 @@ class AddSpecificFragment : Fragment() {
 
         return binding.root
     }
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

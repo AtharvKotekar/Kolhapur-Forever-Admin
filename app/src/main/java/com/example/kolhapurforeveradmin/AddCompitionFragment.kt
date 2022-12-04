@@ -2,8 +2,10 @@ package com.example.kolhapurforeveradmin
 
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AddCompitionFragment : Fragment() {
@@ -35,6 +38,8 @@ class AddCompitionFragment : Fragment() {
         dialog.setContentView(R.layout.loading_dialog)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setCancelable(false)
+
+//        addData()
 
         binding.startDateBtn.setOnClickListener {
             val now = Calendar.getInstance()
@@ -153,6 +158,26 @@ class AddCompitionFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    fun addData(){
+        FirebaseDatabase.getInstance().getReference("Votes")
+            .child("lvx7CfMWMSMxKaMebeACYQMJO")
+            .orderByChild("Participant ID").equalTo("bvM7ISjr5P9KPoGQHYpy9x6g9")
+            .get()
+            .addOnSuccessListener { 
+                for (i in it.children){
+                    Log.e(TAG, "addData: ${i.key.toString()}", )
+                    FirebaseDatabase.getInstance()
+                        .getReference("Votes")
+                        .child("lvx7CfMWMSMxKaMebeACYQMJO")
+                        .child(i.key.toString())
+                        
+                }
+
+                Toast.makeText(requireContext(), "Done", Toast.LENGTH_SHORT).show()
+            }
+
     }
 
     fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)

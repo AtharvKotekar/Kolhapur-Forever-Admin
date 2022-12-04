@@ -12,4 +12,5 @@ fun getRandomString(length: Int) : String {
     return sb.toString()
 }
 
+
 fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
