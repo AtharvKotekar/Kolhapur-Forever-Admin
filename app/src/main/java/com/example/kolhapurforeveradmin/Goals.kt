@@ -6,4 +6,6 @@ data class Goals (
     val teamlogo : String = "",
     val playerName:String = "",
     val playerJerseyNumber:Int = 0,
-    val timestamp: Int = -1 )
+    val timestamp: Int = -1,
+    val team:String = ""
+)

@@ -50,54 +50,84 @@ class GoalsAdadptor(private var fragment: Fragment, private var list: ArrayList<
             dialog.setNegativeButton("Cancel") { dialog, which ->
                 dialog.dismiss()
             }
-            dialog.setPositiveButton("Remove") { dialog, which ->
+            dialog.setPositiveButton("Delete") { dialog, which ->
 
                 FirebaseDatabase.getInstance().getReference("Sports")
                     .child("Football")
-                    .child("Matches")
-                    .child("Upcoming")
+                    .child("Goals")
                     .child(matchId)
-                    .child("team1Score")
-                    .get()
+                    .child(model.goalId)
+                    .removeValue()
                     .addOnSuccessListener {
-                        val team1Goals = it.getValue().toString().toInt()
 
-                        FirebaseDatabase.getInstance().getReference("Sports")
-                            .child("Football")
-                            .child("Goals")
-                            .child(matchId)
-                            .orderByChild("")
+                        if(model.team == "team1"){
+                            FirebaseDatabase.getInstance().getReference("Sports")
+                                .child("Football")
+                                .child("Matches")
+                                .child("Upcoming")
+                                .child(matchId)
+                                .child("team1Score")
+                                .get()
+                                .addOnSuccessListener {
+                                    val team1Goals = it.getValue().toString().toInt()
 
-                        FirebaseDatabase.getInstance().getReference("Sports")
-                            .child("Football")
-                            .child("Matches")
-                            .child("Upcoming")
-                            .child(matchId)
-                            .child("team1Score")
-                            .setValue(team1Goals - 1)
-                            .addOnSuccessListener {
-                                FirebaseDatabase.getInstance().getReference("Sports")
-                                    .child("Football")
-                                    .child("Goals")
-                                    .child(matchId)
-                                    .child(model.goalId)
-                                    .removeValue()
-                                    .addOnSuccessListener {
+                                    FirebaseDatabase.getInstance().getReference("Sports")
+                                        .child("Football")
+                                        .child("Matches")
+                                        .child("Upcoming")
+                                        .child(matchId)
+                                        .child("team1Score")
+                                        .setValue(team1Goals-1)
+                                        .addOnSuccessListener {
 
+                                            dialog.dismiss()
+                                            Toast.makeText(
+                                                fragment.requireContext(),
+                                                "Donee..",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
 
-                                        dialog.dismiss()
-                                        Toast.makeText(
-                                            fragment.requireActivity(),
-                                            "Done..",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                            fragment.onResume()
 
-                                        fragment.onResume()
-                                    }
-                            }
+                                        }
 
+                                }
 
+                        }else if(model.team == "team2"){
+                            FirebaseDatabase.getInstance().getReference("Sports")
+                                .child("Football")
+                                .child("Matches")
+                                .child("Upcoming")
+                                .child(matchId)
+                                .child("team2Score")
+                                .get()
+                                .addOnSuccessListener {
+                                    val team2Goals = it.getValue().toString().toInt()
+
+                                    FirebaseDatabase.getInstance().getReference("Sports")
+                                        .child("Football")
+                                        .child("Matches")
+                                        .child("Upcoming")
+                                        .child(matchId)
+                                        .child("team2Score")
+                                        .setValue(team2Goals-1)
+                                        .addOnSuccessListener {
+
+                                            dialog.dismiss()
+                                            Toast.makeText(
+                                                fragment.requireContext(),
+                                                "Donee..",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+
+                                            fragment.onResume()
+
+                                        }
+
+                                }
+                        }
                     }
+
 
 
 

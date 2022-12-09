@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.kolhapurforeveradmin.databinding.FragmentMatchDetailBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -32,7 +33,7 @@ class MatchDetailFragment : Fragment() {
     lateinit var team2Logo:String
     lateinit var sponsorId:String
     lateinit var goalsList:ArrayList<Goals>
-    lateinit var dialog: Dialog
+    lateinit var mdialog: Dialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,10 +56,10 @@ class MatchDetailFragment : Fragment() {
         binding.team1Name.text = team1Name
         binding.team2Name.text = team2Name
 
-        dialog = Dialog(requireContext())
-        dialog.setContentView(R.layout.loading_dialog)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setCancelable(false)
+        mdialog = Dialog(requireContext())
+        mdialog.setContentView(R.layout.loading_dialog)
+        mdialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        mdialog.setCancelable(false)
 
         goalsList = ArrayList()
 
@@ -111,11 +112,11 @@ class MatchDetailFragment : Fragment() {
                             Toast.makeText(requireContext(), "Enter Goal TimeStamp", Toast.LENGTH_SHORT).show()
                         }else{
 
-                            dialog.show()
+                            mdialog.show()
 
                             val goalsId = getRandomString(25)
 
-                            val goal = Goals(goalsId,team1Id,team1Logo,goalPlayer.text.toString(),goalPlayerJerseyNumber.text.toString().toInt(),goalTimeStamp.text.toString().toInt())
+                            val goal = Goals(goalsId,team1Id,team1Logo,goalPlayer.text.toString(),goalPlayerJerseyNumber.text.toString().toInt(),goalTimeStamp.text.toString().toInt(),"team1")
 
 
 
@@ -145,7 +146,7 @@ class MatchDetailFragment : Fragment() {
                                                 .child(goalsId)
                                                 .setValue(goal)
                                                 .addOnSuccessListener {
-                                                    dialog.dismiss()
+                                                    mdialog.dismiss()
                                                     getGoalsData()
                                                     goalDialog.dismiss()
                                                     Toast.makeText(requireContext(), "Done..", Toast.LENGTH_SHORT).show()
@@ -204,11 +205,11 @@ class MatchDetailFragment : Fragment() {
                             Toast.makeText(requireContext(), "Enter Goal TimeStamp", Toast.LENGTH_SHORT).show()
                         }else{
 
-                            dialog.show()
+                            mdialog.show()
 
                             val goalsId = getRandomString(25)
 
-                            val goal = Goals(goalsId,team2Id,team2Logo,goalPlayer.text.toString(),goalPlayerJerseyNumber.text.toString().toInt(),goalTimeStamp.text.toString().toInt())
+                            val goal = Goals(goalsId,team2Id,team2Logo,goalPlayer.text.toString(),goalPlayerJerseyNumber.text.toString().toInt(),goalTimeStamp.text.toString().toInt(),"team2")
 
 
 
@@ -238,7 +239,7 @@ class MatchDetailFragment : Fragment() {
                                                 .child(goalsId)
                                                 .setValue(goal)
                                                 .addOnSuccessListener {
-                                                    dialog.dismiss()
+                                                    mdialog.dismiss()
                                                     getGoalsData()
                                                     goalDialog.dismiss()
                                                     Toast.makeText(requireContext(), "Done..", Toast.LENGTH_SHORT).show()
@@ -257,6 +258,263 @@ class MatchDetailFragment : Fragment() {
             }
         }
 
+        binding.endMatchBtn.setOnClickListener {
+            val dialog = MaterialAlertDialogBuilder(requireContext(),R.style.AppCompatAlertDialogStyle)
+            dialog.setTitle("End this match")
+            dialog.setMessage("Do you really want to end this match ${team1Name} vs ${team2Name} ")
+            dialog.setNegativeButton("Cancel") { dialog, which ->
+                dialog.dismiss()
+            }
+            dialog.setPositiveButton("End") { dialog, which ->
+
+                mdialog.show()
+                FirebaseDatabase.getInstance().getReference("Sports")
+                    .child("Football")
+                    .child("Matches")
+                    .child("Upcoming")
+                    .child(matchId)
+                    .get()
+                    .addOnSuccessListener {
+                        if (it.exists()){
+                            val match = it.getValue(Match::class.java)
+
+
+                            if(match!!.team1Score > match.team2Score){
+
+                                FirebaseDatabase.getInstance().getReference("Sports")
+                                    .child("Football")
+                                    .child("Teams")
+                                    .child(tournamentId)
+                                    .child(team1Id)
+                                    .get()
+                                    .addOnSuccessListener { snapshot ->
+                                        if(snapshot.exists()){
+                                            val oldTeam1 = snapshot.getValue(Team::class.java)
+
+                                            Toast.makeText(
+                                                requireContext(),
+                                                oldTeam1!!.name,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+
+                                            val newTeam = Team(oldTeam1!!.teamId,oldTeam1.name,oldTeam1.logo,oldTeam1.matchPlayed+1,oldTeam1.matchWon+1,oldTeam1.matchLoss,oldTeam1.matchDraw,oldTeam1.totalPoints+2,oldTeam1.goalsGF+match.team1Score,oldTeam1.goalsGA+match.team2Score)
+
+                                            FirebaseDatabase.getInstance().getReference("Sports")
+                                                .child("Football")
+                                                .child("Teams")
+                                                .child(tournamentId)
+                                                .child(team1Id)
+                                                .setValue(newTeam)
+                                                .addOnSuccessListener {
+
+                                                    Toast.makeText(requireContext(),
+                                                        "Reaching .."
+                                                    ,Toast.LENGTH_SHORT).show()
+
+                                                    FirebaseDatabase.getInstance().getReference("Sports")
+                                                        .child("Football")
+                                                        .child("Teams")
+                                                        .child(tournamentId)
+                                                        .child(team2Id)
+                                                        .get()
+                                                        .addOnSuccessListener { snapshot2 ->
+                                                            if(snapshot2.exists()){
+                                                                val oldTeam2 = snapshot2.getValue(Team::class.java)
+
+                                                                Toast.makeText(requireContext(),
+                                                                    oldTeam2!!.teamId
+                                                                    ,Toast.LENGTH_SHORT).show()
+
+                                                                val newTeam2 = Team(oldTeam2!!.teamId,oldTeam2.name,oldTeam2.logo,oldTeam2.matchPlayed+1,oldTeam2.matchWon,oldTeam2.matchLoss+1,oldTeam2.matchDraw,oldTeam2.totalPoints,oldTeam2.goalsGF+match.team2Score,oldTeam2.goalsGA+match.team1Score)
+
+                                                                FirebaseDatabase.getInstance().getReference("Sports")
+                                                                    .child("Football")
+                                                                    .child("Teams")
+                                                                    .child(tournamentId)
+                                                                    .child(team2Id)
+                                                                    .setValue(newTeam2)
+                                                                    .addOnSuccessListener {
+                                                                        switchmatch(match)
+                                                                        Toast.makeText(
+                                                                            requireContext(),
+                                                                            "Done",
+                                                                            Toast.LENGTH_SHORT
+                                                                        ).show()
+                                                                    }
+
+
+                                                                    }
+
+
+
+                                                                    }
+
+
+
+                                                }
+                                        }
+                                    }
+                            }else if(match!!.team1Score < match.team2Score){
+                                FirebaseDatabase.getInstance().getReference("Sports")
+                                    .child("Football")
+                                    .child("Teams")
+                                    .child(tournamentId)
+                                    .child(team1Id)
+                                    .get()
+                                    .addOnSuccessListener { snapshot ->
+                                        if(snapshot.exists()){
+                                            val oldTeam1 = snapshot.getValue(Team::class.java)
+
+                                            Toast.makeText(
+                                                requireContext(),
+                                                oldTeam1!!.name,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+
+                                            val newTeam = Team(oldTeam1!!.teamId,oldTeam1.name,oldTeam1.logo,oldTeam1.matchPlayed+1,oldTeam1.matchWon,oldTeam1.matchLoss+1,oldTeam1.matchDraw,oldTeam1.totalPoints,oldTeam1.goalsGF+match.team1Score,oldTeam1.goalsGA+match.team2Score)
+
+                                            FirebaseDatabase.getInstance().getReference("Sports")
+                                                .child("Football")
+                                                .child("Teams")
+                                                .child(tournamentId)
+                                                .child(team1Id)
+                                                .setValue(newTeam)
+                                                .addOnSuccessListener {
+
+                                                    Toast.makeText(requireContext(),
+                                                        "Reaching .."
+                                                        ,Toast.LENGTH_SHORT).show()
+
+                                                    FirebaseDatabase.getInstance().getReference("Sports")
+                                                        .child("Football")
+                                                        .child("Teams")
+                                                        .child(tournamentId)
+                                                        .child(team2Id)
+                                                        .get()
+                                                        .addOnSuccessListener { snapshot2 ->
+                                                            if(snapshot2.exists()){
+                                                                val oldTeam2 = snapshot2.getValue(Team::class.java)
+
+                                                                Toast.makeText(requireContext(),
+                                                                    oldTeam2!!.teamId
+                                                                    ,Toast.LENGTH_SHORT).show()
+
+                                                                val newTeam2 = Team(oldTeam2!!.teamId,oldTeam2.name,oldTeam2.logo,oldTeam2.matchPlayed+1,oldTeam2.matchWon+1,oldTeam2.matchLoss,oldTeam2.matchDraw,oldTeam2.totalPoints+2,oldTeam2.goalsGF+match.team2Score,oldTeam2.goalsGA+match.team1Score)
+
+                                                                FirebaseDatabase.getInstance().getReference("Sports")
+                                                                    .child("Football")
+                                                                    .child("Teams")
+                                                                    .child(tournamentId)
+                                                                    .child(team2Id)
+                                                                    .setValue(newTeam2)
+                                                                    .addOnSuccessListener {
+                                                                        switchmatch(match)
+                                                                        Toast.makeText(
+                                                                            requireContext(),
+                                                                            "Done",
+                                                                            Toast.LENGTH_SHORT
+                                                                        ).show()
+                                                                    }
+
+
+                                                            }
+
+
+
+                                                        }
+
+
+
+                                                }
+                                        }
+                                    }
+                            }else if(match!!.team1Score == match.team2Score){
+                                FirebaseDatabase.getInstance().getReference("Sports")
+                                    .child("Football")
+                                    .child("Teams")
+                                    .child(tournamentId)
+                                    .child(team1Id)
+                                    .get()
+                                    .addOnSuccessListener { snapshot ->
+                                        if(snapshot.exists()){
+                                            val oldTeam1 = snapshot.getValue(Team::class.java)
+
+                                            Toast.makeText(
+                                                requireContext(),
+                                                oldTeam1!!.name,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+
+                                            val newTeam = Team(oldTeam1!!.teamId,oldTeam1.name,oldTeam1.logo,oldTeam1.matchPlayed+1,oldTeam1.matchWon,oldTeam1.matchLoss,oldTeam1.matchDraw+1,oldTeam1.totalPoints+1,oldTeam1.goalsGF+match.team1Score,oldTeam1.goalsGA+match.team2Score)
+
+                                            FirebaseDatabase.getInstance().getReference("Sports")
+                                                .child("Football")
+                                                .child("Teams")
+                                                .child(tournamentId)
+                                                .child(team1Id)
+                                                .setValue(newTeam)
+                                                .addOnSuccessListener {
+
+                                                    Toast.makeText(requireContext(),
+                                                        "Reaching .."
+                                                        ,Toast.LENGTH_SHORT).show()
+
+                                                    FirebaseDatabase.getInstance().getReference("Sports")
+                                                        .child("Football")
+                                                        .child("Teams")
+                                                        .child(tournamentId)
+                                                        .child(team2Id)
+                                                        .get()
+                                                        .addOnSuccessListener { snapshot2 ->
+                                                            if(snapshot2.exists()){
+                                                                val oldTeam2 = snapshot2.getValue(Team::class.java)
+
+                                                                Toast.makeText(requireContext(),
+                                                                    oldTeam2!!.teamId
+                                                                    ,Toast.LENGTH_SHORT).show()
+
+                                                                val newTeam2 = Team(oldTeam2!!.teamId,oldTeam2.name,oldTeam2.logo,oldTeam2.matchPlayed+1,oldTeam2.matchWon,oldTeam2.matchLoss,oldTeam2.matchDraw+1,oldTeam2.totalPoints+1,oldTeam2.goalsGF+match.team2Score,oldTeam2.goalsGA+match.team1Score)
+
+                                                                FirebaseDatabase.getInstance().getReference("Sports")
+                                                                    .child("Football")
+                                                                    .child("Teams")
+                                                                    .child(tournamentId)
+                                                                    .child(team2Id)
+                                                                    .setValue(newTeam2)
+                                                                    .addOnSuccessListener {
+                                                                        switchmatch(match)
+                                                                        Toast.makeText(
+                                                                            requireContext(),
+                                                                            "Done",
+                                                                            Toast.LENGTH_SHORT
+                                                                        ).show()
+                                                                    }
+
+
+                                                            }
+
+
+
+                                                        }
+
+
+
+                                                }
+                                        }
+                                    }
+                            }
+
+
+
+
+                            
+                        }
+                    }
+
+            }
+            dialog.show()
+        }
+
 
 
 
@@ -267,6 +525,36 @@ class MatchDetailFragment : Fragment() {
         super.onResume()
         getGoalsData()
     }
+
+    fun switchmatch(match:Match){
+        FirebaseDatabase.getInstance().getReference("Sports")
+            .child("Football")
+            .child("Matches")
+            .child("Completed")
+            .child(matchId)
+            .setValue(match)
+            .addOnSuccessListener {
+
+                FirebaseDatabase.getInstance().getReference("Sports")
+                    .child("Football")
+                    .child("Matches")
+                    .child("Upcoming")
+                    .child(matchId)
+                    .removeValue()
+                    .addOnSuccessListener {
+                        mdialog.dismiss()
+                        onResume()
+                        Toast.makeText(
+                            requireContext(),
+                            "Done..",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+
+            }
+    }
+
 
     fun getGoalsData(){
         FirebaseDatabase.getInstance().getReference("Sports")
