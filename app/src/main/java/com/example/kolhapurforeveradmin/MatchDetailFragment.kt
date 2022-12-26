@@ -73,6 +73,25 @@ class MatchDetailFragment : Fragment() {
             .load(team2Logo)
             .into(binding.team2Logo)
 
+        FirebaseDatabase.getInstance().getReference("Sports")
+            .child("Football")
+            .child("Matches")
+            .child("Upcoming")
+            .child(matchId)
+            .addValueEventListener(object :ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        binding.scoreTeam1.text = snapshot.child("team1Score").value.toString()
+                        binding.scoreTeam2.text = snapshot.child("team2Score").value.toString()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+
         binding.goalTeam1Btn.setOnClickListener {
             val goalDialog = Dialog(requireContext())
             goalDialog.setContentView(R.layout.add_goal_dialog)
