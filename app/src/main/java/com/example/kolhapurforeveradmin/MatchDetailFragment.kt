@@ -316,7 +316,10 @@ class MatchDetailFragment : Fragment() {
                                                 Toast.LENGTH_SHORT
                                             ).show()
 
-                                            val newTeam = Team(oldTeam1!!.teamId,oldTeam1.name,oldTeam1.logo,oldTeam1.matchPlayed+1,oldTeam1.matchWon+1,oldTeam1.matchLoss,oldTeam1.matchDraw,oldTeam1.totalPoints+2,oldTeam1.goalsGF+match.team1Score,oldTeam1.goalsGA+match.team2Score)
+
+
+                                            val team1GF = oldTeam1.goalsGF + (match.team1Score - match.team2Score) // team 1 points
+                                            val newTeam = Team(oldTeam1!!.teamId,oldTeam1.name,oldTeam1.logo,oldTeam1.matchPlayed+1,oldTeam1.matchWon+1,oldTeam1.matchLoss,oldTeam1.matchDraw,oldTeam1.totalPoints+3,team1GF,0)
 
                                             FirebaseDatabase.getInstance().getReference("Sports")
                                                 .child("Football")
@@ -344,7 +347,9 @@ class MatchDetailFragment : Fragment() {
                                                                     oldTeam2!!.teamId
                                                                     ,Toast.LENGTH_SHORT).show()
 
-                                                                val newTeam2 = Team(oldTeam2!!.teamId,oldTeam2.name,oldTeam2.logo,oldTeam2.matchPlayed+1,oldTeam2.matchWon,oldTeam2.matchLoss+1,oldTeam2.matchDraw,oldTeam2.totalPoints,oldTeam2.goalsGF+match.team2Score,oldTeam2.goalsGA+match.team1Score)
+                                                                val team2GF = oldTeam2.goalsGF + (match.team2Score - match.team1Score)
+
+                                                                val newTeam2 = Team(oldTeam2!!.teamId,oldTeam2.name,oldTeam2.logo,oldTeam2.matchPlayed+1,oldTeam2.matchWon,oldTeam2.matchLoss+1,oldTeam2.matchDraw,oldTeam2.totalPoints,team2GF,0)
 
                                                                 FirebaseDatabase.getInstance().getReference("Sports")
                                                                     .child("Football")
@@ -390,7 +395,9 @@ class MatchDetailFragment : Fragment() {
                                                 Toast.LENGTH_SHORT
                                             ).show()
 
-                                            val newTeam = Team(oldTeam1!!.teamId,oldTeam1.name,oldTeam1.logo,oldTeam1.matchPlayed+1,oldTeam1.matchWon,oldTeam1.matchLoss+1,oldTeam1.matchDraw,oldTeam1.totalPoints,oldTeam1.goalsGF+match.team1Score,oldTeam1.goalsGA+match.team2Score)
+                                            val team1GF = oldTeam1.goalsGF + (match.team1Score - match.team2Score)
+
+                                            val newTeam = Team(oldTeam1!!.teamId,oldTeam1.name,oldTeam1.logo,oldTeam1.matchPlayed+1,oldTeam1.matchWon,oldTeam1.matchLoss+1,oldTeam1.matchDraw,oldTeam1.totalPoints,team1GF,0)
 
                                             FirebaseDatabase.getInstance().getReference("Sports")
                                                 .child("Football")
@@ -418,7 +425,9 @@ class MatchDetailFragment : Fragment() {
                                                                     oldTeam2!!.teamId
                                                                     ,Toast.LENGTH_SHORT).show()
 
-                                                                val newTeam2 = Team(oldTeam2!!.teamId,oldTeam2.name,oldTeam2.logo,oldTeam2.matchPlayed+1,oldTeam2.matchWon+1,oldTeam2.matchLoss,oldTeam2.matchDraw,oldTeam2.totalPoints+2,oldTeam2.goalsGF+match.team2Score,oldTeam2.goalsGA+match.team1Score)
+                                                                val team2GF = oldTeam2.goalsGF + (match.team2Score - match.team1Score)
+
+                                                                val newTeam2 = Team(oldTeam2!!.teamId,oldTeam2.name,oldTeam2.logo,oldTeam2.matchPlayed+1,oldTeam2.matchWon+1,oldTeam2.matchLoss,oldTeam2.matchDraw,oldTeam2.totalPoints+3,team2GF,0)
 
                                                                 FirebaseDatabase.getInstance().getReference("Sports")
                                                                     .child("Football")
@@ -464,7 +473,7 @@ class MatchDetailFragment : Fragment() {
                                                 Toast.LENGTH_SHORT
                                             ).show()
 
-                                            val newTeam = Team(oldTeam1!!.teamId,oldTeam1.name,oldTeam1.logo,oldTeam1.matchPlayed+1,oldTeam1.matchWon,oldTeam1.matchLoss,oldTeam1.matchDraw+1,oldTeam1.totalPoints+1,oldTeam1.goalsGF+match.team1Score,oldTeam1.goalsGA+match.team2Score)
+                                            val newTeam = Team(oldTeam1!!.teamId,oldTeam1.name,oldTeam1.logo,oldTeam1.matchPlayed+1,oldTeam1.matchWon,oldTeam1.matchLoss,oldTeam1.matchDraw+1,oldTeam1.totalPoints+1,oldTeam1.goalsGF,0)
 
                                             FirebaseDatabase.getInstance().getReference("Sports")
                                                 .child("Football")
@@ -492,7 +501,7 @@ class MatchDetailFragment : Fragment() {
                                                                     oldTeam2!!.teamId
                                                                     ,Toast.LENGTH_SHORT).show()
 
-                                                                val newTeam2 = Team(oldTeam2!!.teamId,oldTeam2.name,oldTeam2.logo,oldTeam2.matchPlayed+1,oldTeam2.matchWon,oldTeam2.matchLoss,oldTeam2.matchDraw+1,oldTeam2.totalPoints+1,oldTeam2.goalsGF+match.team2Score,oldTeam2.goalsGA+match.team1Score)
+                                                                val newTeam2 = Team(oldTeam2!!.teamId,oldTeam2.name,oldTeam2.logo,oldTeam2.matchPlayed+1,oldTeam2.matchWon,oldTeam2.matchLoss,oldTeam2.matchDraw+1,oldTeam2.totalPoints+1,oldTeam2.goalsGF,0)
 
                                                                 FirebaseDatabase.getInstance().getReference("Sports")
                                                                     .child("Football")
